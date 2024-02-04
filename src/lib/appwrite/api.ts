@@ -1,7 +1,6 @@
 import { INewUser } from "@/types";
 import { ID, Query } from "appwrite";
 import { account, appwriteConfig, avatars, databases } from "./config";
-import { error } from "console";
 
 export async function createUserAccount(user: INewUser) {
     try {
@@ -12,7 +11,7 @@ export async function createUserAccount(user: INewUser) {
             user.name
         );
         
-        if(!newAccount) throw error;
+        if(!newAccount) throw Error;
 
         const avatarUrl = avatars.getInitials(user.name)
 
@@ -81,5 +80,15 @@ export async function getCurrentUser() {
     } catch (error) {
         console.log(error);
         
+    }
+}
+
+export async function signOutAccount() {
+    try {
+        const session = await account.deleteSession("current");
+    
+        return session;
+    } catch (error) {
+        console.log(error);
     }
 }
